@@ -1,0 +1,37 @@
+package vn.iotstart.controllers;
+
+import java.io.IOException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+public class login extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect(req.getContextPath() + "/login.jsp");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+
+        String user = req.getParameter("username");
+        String pass = req.getParameter("password");
+
+        if ("trung".equals(user) && "123".equals(pass)) {
+            Cookie cookie = new Cookie("username", user);
+            cookie.setMaxAge(60 * 5); 
+            resp.addCookie(cookie);
+
+            resp.sendRedirect(req.getContextPath() + "/hello");
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/login");
+        }
+    }
+}

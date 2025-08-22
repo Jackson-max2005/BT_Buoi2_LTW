@@ -1,0 +1,39 @@
+package vn.iotstart.controllers;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet(urlPatterns = { "/LoginSession" })
+public class LoginSession extends HttpServlet {
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/html;charset=UTF-8");
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		PrintWriter out = resp.getWriter();
+		if (username.equals("trung") && password.equals("123")) {
+			
+
+			
+			HttpSession session = req.getSession();
+			session.setAttribute("name", username);
+			resp.sendRedirect(req.getContextPath() + "/HelloCookie");
+		    
+			
+		}
+		else {
+			
+			out.print("Tài khoản hoặc mật khẩu không chính xác");
+			req.getRequestDispatcher("Login.html").include(req,resp);
+		}
+	}
+
+}
